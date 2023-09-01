@@ -1,0 +1,43 @@
+version: "3"
+name: CodeIgniter4_docker_template
+services:
+    src:
+        build: .
+        environment:
+          - REGEN_ENV_FILE=1
+          - CI_ENVIRONMENT=development
+          - DB_DEFAULT_HOSTNAME=localhost
+          - DB_DEFAULT_DATABASE=myDatabase
+          - DB_DEFAULT_USERNAME=root
+          - DB_DEFAULT_PASSWORD=admin
+          - DB_DEFAULT_DRIVER=MySQLi
+          - DB_DEFAULT_PORT=3306
+        ports:
+          - 8000:80
+        links:
+          - db
+        volumes:
+          - ./src:/var/www/html
+    db:
+        image: mysql:latest
+        ports: 
+            - 3306:3306
+        environment:
+          MYSQL_ROOT_PASSWORD: admin
+          MYSQL_DATABASE: myDatabase
+        volumes:
+            - ./db:/var/lib/mysql
+            - persistent:/var/lib/mysql
+        command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password']
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links: 
+            - db:db
+        ports:
+            - 8001:80
+        environment:
+            PMA_HOST: db
+            PMA_PORT: 3306
+            MYSQL_ROOT_PASSWORD: admin
+volumes:
+    persistent:
