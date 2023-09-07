@@ -1,12 +1,11 @@
 <?php
 
 use CodeIgniter\Router\RouteCollection;
-
+use App\Controllers\Recipes;
 /**
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
-use App\Controllers\Pages;
 
-$routes->get('pages', [Pages::class, 'index']);
-$routes->get('(:segment)', [Pages::class, 'view']);
+$routes->get('recipes', [Recipes::class, 'index']);
+$routes->get('recipes/(:segment)', [Recipes::class, 'showRecipeInfo']);

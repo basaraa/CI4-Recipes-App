@@ -26,7 +26,7 @@ services:
           MYSQL_ROOT_PASSWORD: admin
           MYSQL_DATABASE: myDatabase
         volumes:
-            - ./db:/var/lib/mysql
+            - ./src/database/:/docker-entrypoint-initdb.d
             - persistent:/var/lib/mysql
         command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password']
     phpmyadmin:

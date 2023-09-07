@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url("css/bootstrap-icons.css");?>">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url("css/menuStyle.css");?>">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url("css/styles.css");?>">
-    <title>Japončina</title>
+    <title>Recepty</title>
 </head>
 <body>
 <header>
@@ -20,12 +20,7 @@
                             <a class="nav-link" href="home">Domov</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Menu1</a>
-                            <div class="dropdown-content">
-                                <a class="nav-link" href="Submenu1">Submenu1</a>
-                                <a class="nav-link" href="Submenu2">Submenu2</a>
-                                <a class="nav-link" href="Submenu3">Submenu3</a>
-                            </div>
+                            <a class="nav-link" href="/public/recipes">Recepty</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Menu2</a>

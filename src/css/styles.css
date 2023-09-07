@@ -1,3 +1,9 @@
+body{
+    background-color: lightsteelblue;
+    font-size: 20px;
+    margin: 0px;
+    margin-top:110px;
+}
 .nav-item:hover .dropdown-content {display: block;}
 .nav-item a:hover,.dropdown-content a:hover {background-color: red;}
 #success_insert,#result_edit,#succes_found_coinstraint{
@@ -73,13 +79,6 @@ header{
     padding: 0 4px;
     justify-content: center;
 }
-.inflexdiv-cards{
-    margin-left:10px;
-    margin-top:10px;
-    padding:10px;
-    text-align:center;
-    background-color: beige;
-}
 .inflexdiv{
     margin-left:10px;
     margin-top:10px;
@@ -89,9 +88,31 @@ header{
     text-align:center;
     background-color: white;
 }
+.inflexdiv2{
+    margin-left:5px;
+    margin-top:10px;
+    padding:10px;
+    text-align:center;
+    width:47%;
+    font-weight: bold;
+    background:orange;
+}
 .inflexdiv>h2{
     margin:5px;
     padding:5px;
+}
+.inflexdiv2:nth-child(2){
+    background:yellow;
+}
+.inflexdiv2>h2{
+    color:purple;
+}
+.inflexdiv2>h3{
+    color:green;
+}
+.midd{
+    text-align:center;
+    color:red;
 }
 
 label{
@@ -339,6 +360,21 @@ h2,h4{
 }
 .white {
     color: white;
+}
+.img1{
+    height:220px;
+    width:380px;
+    cursor: pointer;
+}
+.img2{
+    height:300px;
+    width:520px;
+    cursor: default;
+}
+.img3{
+    height:110px;
+    width:190px;
+    cursor: pointer;
 }
 
 
