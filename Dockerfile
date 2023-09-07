@@ -1,16 +1,4 @@
 FROM php:8.0-apache 
-ARG PHP_VERSION="8.1"
-ENV PHP_VERSION="${PHP_VERSION}"
-LABEL build_version="PHP: ${PHP_VERSION}"
-ARG SERVERNAME="localhost"
-ARG DOMAIN="example.com"
-ARG WWWDOMAIN="www.example.com"
-ARG TZ="Europe/Rome"
-
-ENV SERVERNAME="${SERVERNAME}"
-ENV DOMAIN="${DOMAIN}"
-ENV WWWDOMAIN="${WWWDOMAIN}"
-
 RUN apt-get update && apt-get install -y
 RUN apt-get install -y curl
 RUN apt-get install -y build-essential libssl-dev zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev
