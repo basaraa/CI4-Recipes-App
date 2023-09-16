@@ -21,6 +21,10 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/public/recipes">Recepty</a>
+                            <div class="dropdown-content">
+                                <div><a class="nav-link" href="/public/recipes/newRecipe">Nový recept</a>
+                                </div>
+                            </div>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Menu2</a>

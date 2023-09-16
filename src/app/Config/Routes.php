@@ -8,4 +8,6 @@ use App\Controllers\Recipes;
 $routes->get('/', 'Home::index');
 
 $routes->get('recipes', [Recipes::class, 'index']);
+$routes->get('recipes/newRecipe', [Recipes::class, 'newRecipe']);
+$routes->post('recipes', [Recipes::class, 'createRecipe']);
 $routes->get('recipes/(:segment)', [Recipes::class, 'showRecipeInfo']);

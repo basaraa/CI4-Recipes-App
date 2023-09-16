@@ -41,4 +41,66 @@ class Recipes extends BaseController
             . view('recipes/recipeInfo')
             . view('partials/footer');
     }
+    public function newRecipe()
+    {
+        helper('form');
+        $model_ingredients = model(RecipeIngredientsModel::class);
+        $data=[
+            'title' => 'Vytvor nový recept',
+            'recipe_types' => ['polievkové lyžice','čajové lyžice','kusy','balenia','kilogramy','gramy','mililitre','decilitre','litre','trochu','veľa']
+        ];
+        return view('partials/header', $data)
+            . view('recipes/create')
+            . view('partials/footer');
+    }
+    public function createRecipe()
+    {
+        helper('form');
+        //|regex_match[[^\\s]+(.*?)\\.(jpg|png|pneg)$]
+        // Checks whether the submitted data passed the validation rules.
+        if (! $this->validate([
+            'recipe_name' => 'required|max_length[32]|min_length[2]',
+            'recipe_img_path'  => 'required|max_length[32]|min_length[2]',
+            'recipe_step_numbers' => 'required',
+            'recipe_steps' => 'required',
+            'recipe_ingredient_names' => 'required',
+            'recipe_ingredient_counts'  => 'required',
+            'recipe_ingredient_types' => 'required'
+        ])) {
+            // The validation fails, so returns the form.
+            return $this->createRecipe();
+        }
+        $model = model(RecipeModel::class);
+        $model_steps = model(RecipeStepsModel::class);
+        $model_ingredients = model(RecipeIngredientsModel::class);
+
+        // Gets the validated data.
+        $post = $this->validator->getValidated();
+
+        // Check for uniqueness of recipe
+        if ($model->getRecipes($post['recipe_name'])!=NULL)
+            return $this->createRecipe();
+
+        $insertedRow=$model->insert([
+            'recipe_name' => $post['recipe_name'],
+            'recipe_img_path'  => $post['recipe_img_path'],
+        ]);
+
+        $model_steps->insert([
+            'recipe_id'  => $insertedRow,
+            'step_number' => $post['recipe_step_numbers'],
+            'step_description' => $post['recipe_steps']
+
+        ]);
+        $model_ingredients->insert([
+            'recipe_id'  => $insertedRow,
+            'ingredient_name' => $post['recipe_ingredient_names'],
+            'ringredient_count' => $post['recipe_ingredient_counts'],
+            'ingredient_count_type' => $post['recipe_ingredient_types'],
+        ]);
+
+        return view('partials/header', ['title' => 'Nový recept vytvorený'])
+            . view('recipes/successCreate')
+            . view('partials/footer');
+    }
 }
