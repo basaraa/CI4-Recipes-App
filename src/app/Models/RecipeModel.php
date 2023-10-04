@@ -7,9 +7,9 @@ class RecipeModel extends Model
 {
     protected $table = 'recipes';
     protected $allowedFields = ['recipe_name', 'recipe_img_path'];
-    public function getRecipes($recipe_name=null){
-        if ($recipe_name)
-            return $this->where (['recipe_name' => $recipe_name])->first();
+    public function getRecipes($recipe_id=null){
+        if ($recipe_id)
+            return $this->where (['id' => $recipe_id])->first();
         else
             return $this->findAll();
     }

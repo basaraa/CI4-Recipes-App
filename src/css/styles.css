@@ -376,7 +376,17 @@ h2,h4{
     width:190px;
     cursor: pointer;
 }
-
+.ingredientInput1{
+    width:200px;
+}
+.ingredientInput2{
+    width: 100px
+}
+.ingredientLine{
+    display:inline;
+    margin:0px;
+    padding:0px;
+}
 
 
 

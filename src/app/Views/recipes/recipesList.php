@@ -6,7 +6,7 @@
     foreach ($recipe as $recipe_item){
 
         $base_url=base_url("img/food/".$recipe_item['recipe_img_path']."");
-        echo '<div class="inflexdiv" onclick="location.href=\'/public/recipes/'.$recipe_item['recipe_name'].'\'">	
+        echo '<div class="inflexdiv" onclick="location.href=\'/public/recipes/'.$recipe_item['id'].'\'">	
 		<img class="img1" src="'.$base_url.'" alt="x">
 		<h2>'.esc($recipe_item['recipe_name']).'</h2>
 	    </div>';

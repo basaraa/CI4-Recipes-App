@@ -22,20 +22,19 @@ class Recipes extends BaseController
             . view('partials/footer');
     }
 
-    public function showRecipeInfo($recipe_name=null)
+    public function showRecipeInfo($recipe_id=null)
     {
         $model = model(RecipeModel::class);
         $model_steps = model(RecipeStepsModel::class);
         $model_ingredients = model(RecipeIngredientsModel::class);
-        $recipe = $model->getRecipes($recipe_name);
+        $recipe = $model->getRecipes($recipe_id);
         $data['recipe_name']=$recipe['recipe_name'];
         if (empty($data['recipe_name'])) {
-            throw new PageNotFoundException('Nenašiel sa recept na: ' . $recipe_name);
+            throw new PageNotFoundException('Nenašiel sa recept');
         }
-        $id=$recipe['id'];
         $data['recipe_img_path']=$recipe["recipe_img_path"];
-        $data['recipe_steps']=$model_steps->getRecipeSteps($id);
-        $data['recipe_ingredients']=$model_ingredients->getRecipeIngredients($id);
+        $data['recipe_steps']=$model_steps->getRecipeSteps($recipe_id);
+        $data['recipe_ingredients']=$model_ingredients->getRecipeIngredients($recipe_id);
 
         return view('partials/header', $data)
             . view('recipes/recipeInfo')
@@ -61,7 +60,6 @@ class Recipes extends BaseController
         if (! $this->validate([
             'recipe_name' => 'required|max_length[32]|min_length[2]',
             'recipe_img_path'  => 'required|max_length[32]|min_length[2]',
-            'recipe_step_numbers' => 'required',
             'recipe_steps' => 'required',
             'recipe_ingredient_names' => 'required',
             'recipe_ingredient_counts'  => 'required',
@@ -70,6 +68,7 @@ class Recipes extends BaseController
             // The validation fails, so returns the form.
             return $this->createRecipe();
         }
+
         $model = model(RecipeModel::class);
         $model_steps = model(RecipeStepsModel::class);
         $model_ingredients = model(RecipeIngredientsModel::class);
@@ -77,28 +76,31 @@ class Recipes extends BaseController
         // Gets the validated data.
         $post = $this->validator->getValidated();
 
-        // Check for uniqueness of recipe
-        if ($model->getRecipes($post['recipe_name'])!=NULL)
+        //if recipe ingredient info count not fit return form
+        if (!(count($post['recipe_ingredient_names']) == count($post['recipe_ingredient_counts']) and
+            count($post['recipe_ingredient_names']) == count($post['recipe_ingredient_types']))){
             return $this->createRecipe();
-
+        }
         $insertedRow=$model->insert([
             'recipe_name' => $post['recipe_name'],
             'recipe_img_path'  => $post['recipe_img_path'],
         ]);
-
-        $model_steps->insert([
-            'recipe_id'  => $insertedRow,
-            'step_number' => $post['recipe_step_numbers'],
-            'step_description' => $post['recipe_steps']
-
-        ]);
-        $model_ingredients->insert([
-            'recipe_id'  => $insertedRow,
-            'ingredient_name' => $post['recipe_ingredient_names'],
-            'ringredient_count' => $post['recipe_ingredient_counts'],
-            'ingredient_count_type' => $post['recipe_ingredient_types'],
-        ]);
-
+        $i=1;
+        foreach ($post['recipe_steps'] as $recipe_step){
+            $model_steps->insert([
+                'recipe_id'  => $insertedRow,
+                'step_number' => $i++,
+                'step_description' => $recipe_step
+            ]);
+        }
+        for ($i=0;$i<count($post['recipe_ingredient_names']);$i++) {
+            $model_ingredients->insert([
+                'recipe_id' => $insertedRow,
+                'ingredient_name' => $post['recipe_ingredient_names'][$i],
+                'ingredient_count' => $post['recipe_ingredient_counts'][$i],
+                'ingredient_count_type' => $post['recipe_ingredient_types'][$i],
+            ]);
+        }
         return view('partials/header', ['title' => 'Nový recept vytvorený'])
             . view('recipes/successCreate')
             . view('partials/footer');

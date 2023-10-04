@@ -76,3 +76,33 @@ $(function () {
         $('#'+id).css("display" , "block");
     });
 });
+//pridanie ďalšieho kroku ku receptu
+$('#addStep').on('click', function (e) {
+    e.preventDefault();
+    var stepNumber=($('.stepContainer').length)+1;
+    var step = ($("<div class='stepContainer'>" +
+        "<label class='red' for='recipe_steps'>Znenie "+stepNumber+".kroku receptu</label>" +
+        "<input class='form-control' type='text' name='recipe_steps[]' maxlength='128' required>" +
+        "</div>"));
+    step.insertBefore('#addStep').slideDown("fast");
+});
+//pridanie ingrediencie ku receptu
+$('#addIngredient').on('click', function (e) {
+    e.preventDefault();
+    var types=['polievkové lyžice','čajové lyžice','kusy','balenia','kilogramy','gramy','mililitre','decilitre','litre','trochu','veľa'];
+    var typesOption='';
+    for (let i = 0; i < types.length; i++) {
+        typesOption= typesOption + "<option value='"+types[i]+"'>"+types[i]+"</option>";
+    }
+    var ingredientNumber=($('.ingredientContainer').length)+1;
+    var ingredient = ($("<div class='ingredientContainer'> <label class='red' >Ingrediencia č."+ingredientNumber+" </label><br>" +
+    "<label class='green'>Názov<input class='form-control ingredientInput1' type='text' name='recipe_ingredient_names[]' maxLength='32' required></label>" +
+    "<label class='green'>Počet<input class='form-control ingredientInput2' type='number' name='recipe_ingredient_counts[]' min='1' max='128' required></label>" +
+    "<label class='green'>Typ<select class='form-control ingredientInput1'  name='recipe_ingredient_types[]'  required>" + typesOption))
+
+    ingredient.append("</select></label></div>");
+    console.log(ingredient);
+    ingredient.insertBefore('#addIngredient').slideDown("fast");
+
+});
+
