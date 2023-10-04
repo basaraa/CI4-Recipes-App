@@ -14,7 +14,7 @@
 
         <div class="stepContainer">
             <label class="red" for="recipe_steps">Znenie 1.kroku receptu</label>
-            <input class="form-control" type="text" id = "recipe_steps" name="recipe_steps" value="<?= set_value('recipe_steps') ?>" maxlength="128" required>
+            <input class="form-control" type="text" name="recipe_steps[]" value="<?= set_value('recipe_steps') ?>" maxlength="128" required>
         </div>
         <button class="btn btn-secondary" id="addStep">Pridať krok ku receptu</button><br>
         <div class="ingredientContainer">
@@ -22,7 +22,7 @@
             <div class="ingredientLine">
                 <label class="green">Názov<input class="form-control ingredientInput1" type="text" name="recipe_ingredient_names[]" value="<?= set_value('recipe_ingredient_names') ?>" maxlength="32" required></label>
                 <label class="green">Počet<input class="form-control ingredientInput2" type="number" name="recipe_ingredient_counts[]" value="<?= set_value('recipe_ingredient_counts') ?>" min="1" max="128" required></label>
-                <label class="green">Typ<select class="form-control ingredientInput1" id="recipe_ingredient_types" name= "recipe_ingredient_types[]"  required>
+                <label class="green">Typ<select class="form-control ingredientInput1" name= "recipe_ingredient_types[]"  required>
                     <?
                     foreach ($recipe_types as $recipe_type){
                     ?>
