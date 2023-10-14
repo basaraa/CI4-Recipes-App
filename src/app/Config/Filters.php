@@ -22,6 +22,8 @@ class Filters extends BaseConfig
         'csrf'          => CSRF::class,
         'toolbar'       => DebugToolbar::class,
         'honeypot'      => Honeypot::class,
+        'authFilter'    => \App\Filters\AuthFilter::class,
+		 'guestFilter'   => \App\Filters\GuestFilter::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
     ];

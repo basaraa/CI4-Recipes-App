@@ -8,10 +8,10 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Recipes extends BaseController
 {
-    public function index()
+    public function index($user_id=null)
     {
         $model = model(RecipeModel::class);
-        $recipe=$model->getRecipes();
+        $recipe=$model->getRecipes(null,$user_id);
         $data=[
             'recipe' => $recipe,
             'title' => "Recepty"
@@ -27,7 +27,7 @@ class Recipes extends BaseController
         $model = model(RecipeModel::class);
         $model_steps = model(RecipeStepsModel::class);
         $model_ingredients = model(RecipeIngredientsModel::class);
-        $recipe = $model->getRecipes($recipe_id);
+        $recipe = $model->getRecipes($recipe_id,null);
         $data['recipe_name']=$recipe['recipe_name'];
         if (empty($data['recipe_name'])) {
             throw new PageNotFoundException('Nenašiel sa recept');
@@ -43,7 +43,6 @@ class Recipes extends BaseController
     public function newRecipe()
     {
         helper('form');
-        $model_ingredients = model(RecipeIngredientsModel::class);
         $data=[
             'title' => 'Vytvor nový recept',
             'recipe_types' => ['polievkové lyžice','čajové lyžice','kusy','balenia','kilogramy','gramy','mililitre','decilitre','litre','trochu','veľa']

@@ -22,49 +22,30 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/public/recipes">Recepty</a>
                             <div class="dropdown-content">
-                                <div><a class="nav-link" href="/public/recipes/newRecipe">Nový recept</a>
+                                <div>
+                                    <a class="nav-link" href="/public/recipes/newRecipe">Nový recept</a>
+                                </div>
+                            </div>
+                            <div class="dropdown-content">
+                                <div>
+                                    <a class="nav-link" href="/public/users/list">Podľa používateľa</a>
                                 </div>
                             </div>
                         </li>
+                        <?
+                        if (!session()->get('isLoggedIn') || (isset($logReg) && $logReg ==1)){?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/public/users/login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/public/users/register">Registrácia</a>
+                            </li>
+                        <?} else{?>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Menu2</a>
-                            <div class="dropdown-content">
-                                <div><a class="nav-link" href="Submenu1">Submenu1</a>
-                                <div class="dropdown-subcontent">
-                                    <a class="nav-link" href="Submenu1">SubSubmenu1</a>
-                                    <a class="nav-link" href="Submenu2">SubSubmenu2</a>
-                                    <a class="nav-link" href="Submenu3">SubSubmenu3</a>
-                                </div></div>
-                                <div><a class="nav-link" href="Submenu2">Submenu2</a>
-                                <div class="dropdown-subcontent">
-                                    <a class="nav-link" href="Submenu1">SubSubmenu1</a>
-                                    <a class="nav-link" href="Submenu2">SubSubmenu2</a>
-                                    <a class="nav-link" href="Submenu3.">SubSubmenu3</a>
-                                </div></div>
-                                <div><a class="nav-link" href="Submenu2">Submenu3</a>
-                                <div class="dropdown-subcontent">
-                                    <a class="nav-link" href="Submenu1">Submenu1</a>
-                                    <a class="nav-link" href="Submenu2">Submenu2</a>
-                                    <a class="nav-link" href="Submenu3">Submenu3</a>
-                                </div></div>
-                            </div>
+                            <a class="nav-link" href="/public/users/logout">Logout</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Menu3</a>
-                            <div class="dropdown-content">
-                                <a class="nav-link" href="Submenu1">Submenu1</a>
-                                <a class="nav-link" href="Submenu2">Submenu2</a>
-                                <a class="nav-link" href="Submenu3">Submenu3</a>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Menu4</a>
-                            <div class="dropdown-content">
-                                <a class="nav-link" href="Submenu1">Submenu1</a>
-                                <a class="nav-link" href="Submenu2">Submenu2</a>
-                                <a class="nav-link" href="Submenu3">Submenu3</a>
-                            </div>
-                        </li>
+                        <?}?>
+
                     </ul>
                 </div>
             </nav>
