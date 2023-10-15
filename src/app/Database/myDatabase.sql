@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hostiteľ: db:3306
--- Čas generovania: Št 07.Sep 2023, 11:51
+-- Čas generovania: Sun 15.Okt 2023, 13:11
 -- Verzia serveru: 8.0.32
 -- Verzia PHP: 8.0.19
 
@@ -29,16 +29,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `recipes` (
   `id` int UNSIGNED NOT NULL,
-  `recipe_name` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `recipe_img_path` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL
+  `user_id` int UNSIGNED NOT NULL,
+  `recipe_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `recipe_img_path` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Sťahujem dáta pre tabuľku `recipes`
---
-
-INSERT INTO `recipes` (`id`, `recipe_name`, `recipe_img_path`) VALUES
-(1, 'Palacinky', 'palacinky.jpg');
 
 -- --------------------------------------------------------
 
@@ -49,21 +43,10 @@ INSERT INTO `recipes` (`id`, `recipe_name`, `recipe_img_path`) VALUES
 CREATE TABLE `recipe_ingredients` (
   `id` int UNSIGNED NOT NULL,
   `recipe_id` int UNSIGNED NOT NULL,
-  `ingredient_name` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ingredient_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `ingredient_count` int DEFAULT NULL,
   `ingredient_count_type` enum('polievkové lyžice','čajové lyžice','kusy','balenia','kilogramy','gramy','mililitre','decilitre','litre','trochu','veľa') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Sťahujem dáta pre tabuľku `recipe_ingredients`
---
-
-INSERT INTO `recipe_ingredients` (`id`, `recipe_id`, `ingredient_name`, `ingredient_count`, `ingredient_count_type`) VALUES
-(1, 1, 'polohrubej múky', 10, 'polievkové lyžice'),
-(2, 1, 'mlieka', 4, 'decilitre'),
-(3, 1, 'vajec', 4, 'kusy'),
-(4, 1, 'vanilkový cukor', 1, 'kusy'),
-(5, 1, 'škorica', NULL, 'trochu');
 
 -- --------------------------------------------------------
 
@@ -75,17 +58,21 @@ CREATE TABLE `recipe_steps` (
   `id` int UNSIGNED NOT NULL,
   `recipe_id` int UNSIGNED NOT NULL,
   `step_number` int NOT NULL,
-  `step_description` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL
+  `step_description` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- Sťahujem dáta pre tabuľku `recipe_steps`
+-- Štruktúra tabuľky pre tabuľku `users`
 --
 
-INSERT INTO `recipe_steps` (`id`, `recipe_id`, `step_number`, `step_description`) VALUES
-(1, 1, 1, 'Všetko hodiť do misky.'),
-(2, 1, 2, 'Poriadne pomixovať.'),
-(3, 1, 3, 'Na rozohriatý olej (nie veľa oleja) postupne nalievať cesto.');
+CREATE TABLE `users` (
+  `id` int UNSIGNED NOT NULL,
+  `user_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Kľúče pre exportované tabuľky
@@ -112,6 +99,12 @@ ALTER TABLE `recipe_steps`
   ADD KEY `recipe_id` (`recipe_id`);
 
 --
+-- Indexy pre tabuľku `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT pre exportované tabuľky
 --
 
@@ -119,19 +112,25 @@ ALTER TABLE `recipe_steps`
 -- AUTO_INCREMENT pre tabuľku `recipes`
 --
 ALTER TABLE `recipes`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pre tabuľku `recipe_ingredients`
 --
 ALTER TABLE `recipe_ingredients`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pre tabuľku `recipe_steps`
 --
 ALTER TABLE `recipe_steps`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pre tabuľku `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Obmedzenie pre exportované tabuľky
