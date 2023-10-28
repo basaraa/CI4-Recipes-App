@@ -2,18 +2,17 @@
 
 <?= session()->getFlashdata('error') ?>
 <?= validation_list_errors() ?>
-
-<form action="/public/recipes" class="form addForm" method="post">
+<?= form_open_multipart(base_url('public/recipes'),array('class'=>'form addform')) ?>
     <?= csrf_field()?>
     <div class="form-group">
-        <label class="red" for="recipe_name">Názov receptu</label>
+        <label class="green" for="recipe_name">Názov receptu</label>
         <input class="form-control" type="text" id="recipe_name" name="recipe_name" value="<?= set_value('recipe_name') ?>" maxlength="32" required>
 
-        <label class="red" for="recipe_img_path">Cesta k obrázku receptu</label>
+        <label class="green" for="recipe_img">Cesta ku obrázku</label>
+        <!-- <input class="form-control" type="file" id = "file" name="file" size="20" required> -->
         <input class="form-control" type="text" id = "recipe_img_path" name="recipe_img_path" value="<?= set_value('recipe_img_path') ?>" maxlength="32" required>
-
         <div class="stepContainer">
-            <label class="red" for="recipe_steps">Znenie 1.kroku receptu</label>
+            <label class="green" for="recipe_steps">Znenie 1.kroku receptu</label>
             <input class="form-control" type="text" name="recipe_steps[]" value="<?= set_value('recipe_steps') ?>" maxlength="128" required>
         </div>
         <button class="btn btn-secondary" id="addStep">Pridať krok ku receptu</button><br>

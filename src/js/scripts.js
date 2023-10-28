@@ -81,7 +81,7 @@ $('#addStep').on('click', function (e) {
     e.preventDefault();
     var stepNumber=($('.stepContainer').length)+1;
     var step = ($("<div class='stepContainer'>" +
-        "<label class='red' for='recipe_steps'>Znenie "+stepNumber+".kroku receptu</label>" +
+        "<label class='green' for='recipe_steps'>Znenie "+stepNumber+".kroku receptu</label>" +
         "<input class='form-control' type='text' name='recipe_steps[]' maxlength='128' required>" +
         "</div>"));
     step.insertBefore('#addStep').slideDown("fast");

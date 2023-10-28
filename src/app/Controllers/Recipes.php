@@ -6,10 +6,8 @@ use App\Models\RecipeStepsModel;
 use App\Models\RecipeIngredientsModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
-class Recipes extends BaseController
-{
-    public function index($user_id=null)
-    {
+class Recipes extends BaseController{
+    public function index($user_id=null){
         $model = model(RecipeModel::class);
         $recipe=$model->getRecipes(null,$user_id);
         $data=[
@@ -22,8 +20,7 @@ class Recipes extends BaseController
             . view('partials/footer');
     }
 
-    public function showRecipeInfo($recipe_id=null)
-    {
+    public function showRecipeInfo($recipe_id=null){
         $model = model(RecipeModel::class);
         $model_steps = model(RecipeStepsModel::class);
         $model_ingredients = model(RecipeIngredientsModel::class);
@@ -40,8 +37,7 @@ class Recipes extends BaseController
             . view('recipes/recipeInfo')
             . view('partials/footer');
     }
-    public function newRecipe()
-    {
+    public function newRecipe(){
         helper('form');
         $data=[
             'title' => 'Vytvor nový recept',
@@ -51,9 +47,9 @@ class Recipes extends BaseController
             . view('recipes/create')
             . view('partials/footer');
     }
-    public function createRecipe()
-    {
+    public function createRecipe(){
         helper('form');
+        //helper('file');
         //|regex_match[[^\\s]+(.*?)\\.(jpg|png|pneg)$]
         // Checks whether the submitted data passed the validation rules.
         if (! $this->validate([
@@ -73,6 +69,7 @@ class Recipes extends BaseController
         $model_ingredients = model(RecipeIngredientsModel::class);
 
         // Gets the validated data.
+
         $post = $this->validator->getValidated();
 
         //if recipe ingredient info count not fit return form
@@ -80,7 +77,10 @@ class Recipes extends BaseController
             count($post['recipe_ingredient_names']) == count($post['recipe_ingredient_types']))){
             return $this->createRecipe();
         }
+        //$img = $this->request->getFile('file');
+        //$img->move('img/food/');
         $insertedRow=$model->insert([
+            'user_id' => session()->get('id'),
             'recipe_name' => $post['recipe_name'],
             'recipe_img_path'  => $post['recipe_img_path'],
         ]);
@@ -100,8 +100,21 @@ class Recipes extends BaseController
                 'ingredient_count_type' => $post['recipe_ingredient_types'][$i],
             ]);
         }
+
         return view('partials/header', ['title' => 'Nový recept vytvorený'])
             . view('recipes/successCreate')
+            . view('partials/footer');
+    }
+    function loggedUserRecipes(){
+        $model = model(RecipeModel::class);
+        $recipe=$model->getRecipes(null,session()->get('id'));
+        $data=[
+            'recipe' => $recipe,
+            'title' => "Recepty"
+        ];
+
+        return view('partials/header', $data)
+            . view('users/myRecipes')
             . view('partials/footer');
     }
 }

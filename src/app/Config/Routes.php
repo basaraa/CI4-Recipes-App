@@ -13,6 +13,7 @@ $routes->get('recipes/newRecipe', [Recipes::class, 'newRecipe']);
 $routes->post('recipes', [Recipes::class, 'createRecipe']);
 $routes->get('recipes/(:segment)', [Recipes::class, 'showRecipeInfo']);
 $routes->get('users/recipes/(:segment)', [Recipes::class, 'index']);
+$routes->get('users/myrecipes', [Recipes::class, 'loggedUserRecipes'],['filter' => 'authFilter']);
 $routes->get('users/list', [Users::class, 'userList']);
 $routes->get('users', [Users::class, 'index'],['filter' => 'authFilter']);
 $routes->get('users/register', [Users::class, 'index'],['filter' => 'guestFilter']);

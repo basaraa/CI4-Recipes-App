@@ -35,13 +35,13 @@ class Users extends BaseController
             'password'  => password_hash($post['password'], PASSWORD_DEFAULT)
 
         ]);
-        $data = ['title' => "Registration was successful, you can login now"];
+        $data = ['title' => "Registration was successful, you can login now",'error'=>''];
         return view('partials/header',$data)
             . view('users/login')
             . view('partials/footer');
     }
-    public function loginForm(){
-        $data = ['title' => "User login"];
+    public function loginForm($error=''){
+        $data = ['title' => "User login",'error' => $error];
         return view('partials/header', $data)
             . view('users/login')
             . view('partials/footer');
@@ -61,11 +61,11 @@ class Users extends BaseController
         $password = $post['password'];
         $user = $userModel->getUser($email);
         if(is_null($user)) {
-            return redirect()->back()->withInput()->with('error', 'Invalid email.');
+            return $this->loginForm('Invalid email.');
         }
         $pwd_verify = password_verify($password, $user['password']);
         if(!$pwd_verify) {
-            return redirect()->back()->withInput()->with('error', 'Invalid username or password.');
+            return $this->loginForm('Wrong email or password');
         }
         $ses_data = [
             'id' => $user['id'],
@@ -73,13 +73,12 @@ class Users extends BaseController
             'isLoggedIn' => TRUE
         ];
         $session->set($ses_data);
-        $data = ['title' => "Your recipes"];
-        return redirect()->to(base_url('public/users/recipes/'. strval($user['id'])));
+        return redirect()->to(base_url('public/users/myrecipes/'));
     }
 
     public function logout() {
         session_destroy();
-        $data = ['title' => "Successful logout",'logReg'=>1];
+        $data = ['title' => "Successful logout",'logReg'=>1,'error'=>''];
         return view('partials/header', $data)
             . view('users/login')
             . view('partials/footer');

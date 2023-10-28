@@ -22,18 +22,17 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/public/recipes">Recepty</a>
                             <div class="dropdown-content">
+                            <? if (session()->get('isLoggedIn') || (isset($logReg) && $logReg ==1)){?>
                                 <div>
                                     <a class="nav-link" href="/public/recipes/newRecipe">Nový recept</a>
                                 </div>
-                            </div>
-                            <div class="dropdown-content">
+                            <?}?>
                                 <div>
                                     <a class="nav-link" href="/public/users/list">Podľa používateľa</a>
                                 </div>
                             </div>
                         </li>
-                        <?
-                        if (!session()->get('isLoggedIn') || (isset($logReg) && $logReg ==1)){?>
+                        <? if (!session()->get('isLoggedIn') || (isset($logReg) && $logReg ==1)){?>
                             <li class="nav-item">
                                 <a class="nav-link" href="/public/users/login">Login</a>
                             </li>
