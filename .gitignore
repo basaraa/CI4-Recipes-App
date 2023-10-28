@@ -119,3 +119,4 @@ fabric.properties
 src/vendor/*
 src/writable/logs/*
 src/writable/session/*
+src/img/food/*
