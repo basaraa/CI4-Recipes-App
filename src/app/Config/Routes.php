@@ -21,3 +21,6 @@ $routes->post('users/register', [Users::class, 'register'],['filter' => 'guestFi
 $routes->get('users/login', [Users::class, 'loginForm'],['filter' => 'authFilter']);
 $routes->post('users/login', [Users::class, 'login'],['filter' => 'authFilter']);
 $routes->get('users/logout', [Users::class, 'logout'],['filter' => 'authFilter']);
+$routes->post('recipeEditForm', [AjaxHandler::class, 'index']);
+$routes->post('recipeEdit', [AjaxHandler::class, 'editRecipe']);
+$routes->post('recipeDelete', [AjaxHandler::class, 'deleteRecipe']);

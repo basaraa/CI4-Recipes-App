@@ -1,4 +1,4 @@
-<?$base_url=base_url("img/food/".$recipe_img_path."");?>
+<?$base_url=base_url($recipe_img_path);?>
 <div class="midd">
     <h1 class="red"><?= esc($recipe_name) ?></h1>
     <img class="img2" src="<?=$base_url?>" alt="x">

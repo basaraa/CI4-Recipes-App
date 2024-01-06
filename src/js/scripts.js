@@ -65,17 +65,98 @@ $('input#searchBar').quicksearch('table#tabulka tbody tr',{
 		delay: 200
 	}
 );
-//skrytie a odkrytie contentu pre všeobecné formy slovies
 $(function () {
-    $('.verbFormTableHideLi').on('click', function (e) {
-        let id=(this.id).split("_", 1)[0];
-        $('.verbFormTableHideLi').css("background-color","transparent")
-        $('#'+this.id).css("background-color","deepskyblue")
-
-        $('.verbFormTableDiv').css("display" , "none");
-        $('#'+id).css("display" , "block");
-    });
+	$('.editRecipeButton').on('click', function(){
+		$.ajax({
+			type: 'post',
+			url: '/public/recipeEditForm',
+			data: {id: (((this.id).split("_"))[0])},
+			success: function (data) {
+				document.getElementById("modal_background").style.display="block";
+				document.getElementsByClassName("modal_div")[0].style.display="flex";
+				document.getElementById("modal_text").innerHTML=data
+			},
+			error: function (){
+				alert ("Nastala chyba skúste to znova")
+			}
+		});
+	})
 });
+//edit
+$(function () {
+    $('.editForm').on('submit', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'post',
+            url: '/public/recipeEdit',
+            data: $('.editForm').serialize(),
+            success: function (data) {
+                try {
+                    let result = JSON.parse(data)
+                    if(result.scs===false){
+                        document.getElementById("modal_background3").style.display="block";
+                        document.getElementsByClassName("modal_div3")[0].style.display="flex";
+                        document.getElementById("modal_text3").innerHTML=result.msg;
+                    }
+                    else{
+                        document.getElementById("modal_background").style.display="none";
+                        document.getElementsByClassName("modal_div")[0].style.display="none";
+                        document.getElementById("modal_background2").style.display="block";
+                        document.getElementsByClassName("modal_div2")[0].style.display="flex";
+                        document.getElementById("result").innerHTML=result.msg;
+                    }
+                }
+                catch{
+                    document.getElementById("modal_background3").style.display="block";
+                    document.getElementsByClassName("modal_div3")[0].style.display="flex";
+                    document.getElementById("modal_text3").innerHTML=data;
+                }
+            },
+            error: function (){
+                alert ("Nastala chyba skúste to znova")
+            }
+        });
+    })
+});
+
+//delete
+$(function () {
+    $('.deleteX').on('click', function (e) {
+        e.preventDefault();
+        let type;
+        if (this.classList.contains('word'))
+            type=0;
+        else
+            type=1
+        $.ajax({
+            type: 'post',
+            url: '/public/recipeDelete',
+            data: {id:this.id},
+            success: function (data) {
+                try {
+                    let result = JSON.parse(data)
+                    if(result.scs===true){
+                        document.getElementById("modal_background2").style.display="block";
+                        document.getElementsByClassName("modal_div2")[0].style.display="flex";
+                        document.getElementById("result").innerHTML=result.msg;
+                    }
+                    else{
+                        document.getElementById("modal_background").style.display="block";
+                        document.getElementsByClassName("modal_div")[0].style.display="flex";
+                        document.getElementById("modal_text").innerHTML=result.msg;
+                    }
+                }
+                catch{
+                    alert (data)
+                }
+            },
+            error: function (){
+                alert ("Nastala chyba skúste to znova")
+            }
+        });
+    })
+});
+
 //pridanie ďalšieho kroku ku receptu
 $('#addStep').on('click', function (e) {
     e.preventDefault();
@@ -99,9 +180,7 @@ $('#addIngredient').on('click', function (e) {
     "<label class='green'>Názov<input class='form-control ingredientInput1' type='text' name='recipe_ingredient_names[]' maxLength='32' required></label>" +
     "<label class='green'>Počet<input class='form-control ingredientInput2' type='number' name='recipe_ingredient_counts[]' min='1' max='128' required></label>" +
     "<label class='green'>Typ<select class='form-control ingredientInput1'  name='recipe_ingredient_types[]'  required>" + typesOption))
-
     ingredient.append("</select></label></div>");
-    console.log(ingredient);
     ingredient.insertBefore('#addIngredient').slideDown("fast");
 
 });

@@ -1,15 +1,17 @@
 <h2 class="green"><?= esc($title) ?></h2>
 
 <?php if (!empty($recipe && is_array($recipe))) {
-   echo '<div class="flexdiv">';
+    echo '<div class="flexdiv">';
 
     foreach ($recipe as $recipe_item){
 
-        $base_url=base_url("img/food/".$recipe_item['recipe_img_path']."");
-        echo '<div class="inflexdiv" onclick="location.href=\'/public/recipes/'.$recipe_item['id'].'\'">	
+        $base_url=base_url($recipe_item['recipe_img_path']);
+        echo '<div class="inflexdiv">
+		<span onclick="location.href=\'/public/recipes/'.$recipe_item['id'].'\'">	
 		<img class="img1" src="'.$base_url.'" alt="x">
 		<h2>'.esc($recipe_item['recipe_name']).'</h2>
-	    </div>';
+	    </span>
+		</div>';
     }
 
 }

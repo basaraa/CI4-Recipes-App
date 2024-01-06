@@ -17,14 +17,18 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="home">Domov</a>
+						<? if (session()->get('isLoggedIn') || (isset($logReg) && $logReg ==1)){?>
+							<a class="nav-link" href="<?base_url('public/users/myrecipes')?>">Domov</a>
+						<?} else{?>						
+                            <a class="nav-link" href="<?base_url('public/users/login')?>">Domov</a>
+						<?}?>	
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/public/recipes">Recepty</a>
                             <div class="dropdown-content">
                             <? if (session()->get('isLoggedIn') || (isset($logReg) && $logReg ==1)){?>
                                 <div>
-                                    <a class="nav-link" href="/public/recipes/newRecipe">Nový recept</a>
+                                    <a class="nav-link" href="<?base_url()?>/public/recipes/newRecipe">Nový recept</a>
                                 </div>
                             <?}?>
                                 <div>
