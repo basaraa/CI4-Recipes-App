@@ -3,6 +3,7 @@
 use CodeIgniter\Router\RouteCollection;
 use App\Controllers\Recipes;
 use App\Controllers\Users;
+use App\Controllers\AjaxHandler;
 /**
  * @var RouteCollection $routes
  */

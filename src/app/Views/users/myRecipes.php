@@ -31,6 +31,7 @@ else
     <div class="modal_div">
         <div id="modal_vrstva">
             <form class="form editForm">
+			<!--<input type="hidden" class="txt_csrfname" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />-->
                 <div id="modal_text">
                 </div>
             </form>

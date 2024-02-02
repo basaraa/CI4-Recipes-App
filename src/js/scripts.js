@@ -67,14 +67,18 @@ $('input#searchBar').quicksearch('table#tabulka tbody tr',{
 );
 $(function () {
 	$('.editRecipeButton').on('click', function(){
+		//var csrfName = $('.txt_csrfname').attr('name'); // CSRF Token name
+		//var csrfHash = $('.txt_csrfname').val(); // CSRF hash		
 		$.ajax({
 			type: 'post',
 			url: '/public/recipeEditForm',
+			headers: {'X-Requested-With': 'XMLHttpRequest'},
 			data: {id: (((this.id).split("_"))[0])},
 			success: function (data) {
-				document.getElementById("modal_background").style.display="block";
-				document.getElementsByClassName("modal_div")[0].style.display="flex";
-				document.getElementById("modal_text").innerHTML=data
+				//$('.txt_csrfname').val(result.token);
+				$("#modal_background").css("display","block");
+				$(".modal_div").first().css("display","flex");
+				$("#modal_text").html(data);
 			},
 			error: function (){
 				alert ("Nastala chyba skúste to znova")
@@ -94,26 +98,26 @@ $(function () {
                 try {
                     let result = JSON.parse(data)
                     if(result.scs===false){
-                        document.getElementById("modal_background3").style.display="block";
-                        document.getElementsByClassName("modal_div3")[0].style.display="flex";
-                        document.getElementById("modal_text3").innerHTML=result.msg;
+						$("#modal_background3").css("display","block");
+						$(".modal_div3").first().css("display","flex");
+						$("#modal_text3").html(result.msg);
                     }
                     else{
-                        document.getElementById("modal_background").style.display="none";
-                        document.getElementsByClassName("modal_div")[0].style.display="none";
-                        document.getElementById("modal_background2").style.display="block";
-                        document.getElementsByClassName("modal_div2")[0].style.display="flex";
-                        document.getElementById("result").innerHTML=result.msg;
+						$("#modal_background").css("display","none");
+						$(".modal_div").first().css("display","none");
+						$("#modal_background2").css("display","block");
+						$(".modal_div2").first().css("display","flex");
+						$("#result").html(result.msg);
                     }
                 }
                 catch{
-                    document.getElementById("modal_background3").style.display="block";
-                    document.getElementsByClassName("modal_div3")[0].style.display="flex";
-                    document.getElementById("modal_text3").innerHTML=data;
+					$("#modal_background3").css("display","block");
+					$(".modal_div3").first().css("display","flex");
+					$("#modal_text3").html(data);
                 }
             },
-            error: function (){
-                alert ("Nastala chyba skúste to znova")
+            error: function (xhr, status, error){
+				alert(xhr.responseText);
             }
         });
     })
